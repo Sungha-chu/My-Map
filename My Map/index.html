@@ -8,21 +8,28 @@
         <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
         <link rel="stylesheet" href="assets/css/index.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 
+         
         <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7"></script>
         <script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
         <script src="assets/js/index.js"></script>
         <script src="assets/js/config.js"></script>
-        <script src="assets/js/map.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7"></script>
+        <script src="assets/js/create_and_init_map.js"></script>
+       
+        
         <script src="src/L.Control.Locate.js" ></script>
 
     </head>
 
     <body  onload="init();">
-        <!-- 想要整個頁面都是地圖，所以我在這邊用 style="width: 100%;"填滿寬 -->
         <div id="map"></div>
 
-        
+        <button onclick = "draw_shape();">框選範圍</button>
+        <button onclick = "erase_shape();">刪除框選範圍</button>
+
+        <script type='application/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js'></script> 
     </body>
 </html>
