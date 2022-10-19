@@ -1,0 +1,16 @@
+#map {
+    height: 800px;
+}
+
+.leaflet-control-locate a.leaflet-bar-part div {
+	background-position: left 8px top 8px;
+	background-repeat: no-repeat;
+	width: 30px;
+	height: 30px;
+}
+.leaflet-control-locate a.leaflet-bar-part div.loading {
+	background-image: url(../src/images/target.svg);
+}
+.leaflet-control-locate a.leaflet-bar-part div.locate {
+	background-image: url(../src/images/target.svg);
+}
