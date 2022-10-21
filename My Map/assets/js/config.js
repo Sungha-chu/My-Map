@@ -11,9 +11,3 @@ let user_location_icon = new L.Icon({   //使用者座標icon
 });
 let drawItem;   //圖層
 let points_marker_by_user = new Array(); //圖形標註座標
-
-
-/*暫時沒用到*/
-let mouseIsClicking = false;  //滑鼠點擊狀態(預設為false)
-let mouseIsMoving = false;  //滑鼠移動狀態(預設為false)
-let index_for_points_list = 0;

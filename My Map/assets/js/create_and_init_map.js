@@ -5,7 +5,7 @@ function create_map(){
 
   map = L.map(document.getElementById('map'),{  //map基礎設定
     center: [23.5, 121],  // 中心點
-    zoom: 7,  // 縮放層級
+    zoom: 18,  // 縮放層級
     crs: L.CRS.EPSG3857,  // 座標系統
   }).setView(center, zoom);
 
@@ -30,11 +30,11 @@ function create_map(){
 function create_draw_func_bar(){
   let drawControl = new L.Control.Draw({
     draw:{
-      polyline: false,
-      polygon: true,
-      rectangle: true,
-      circle: false,
-      marker: false,
+      polyline: false,  //直線:停用
+      polygon: true,  //多邊形:啟用
+      rectangle: true,  //四邊形:啟用
+      circle: false,  //圓形:停用
+      marker: false,  //標註點:停用
     },
     edit:{
       featureGroup: drawItem,
@@ -48,8 +48,8 @@ function create_draw_func_bar(){
 //監聽繪圖事件與建立圖形座標list
 function draw_created(e){
   let layer = e.layer;
-  points_marker_by_user = layer._latlngs[0];
-  console.log(points_marker_by_user); //輸出測試points_marker_by_user被寫入成功
+  points_marker_by_user = layer._latlngs[0];  //讀取第一筆資料
+  //console.log(points_marker_by_user); //輸出測試points_marker_by_user被寫入成功
   drawItem.addLayer(layer);  
 }
 
@@ -87,7 +87,6 @@ function get_user_location(){
 //成功取得使用者座標時觸發
 function onLocationFound(e) {
     user_location = e.latlng;    //設定使用者座標
-    console.log(user_location);
     if(user_location != null) L.marker(user_location,{icon:user_location_icon}).addTo(map); //標註使用者座標 
 }
 
@@ -115,4 +114,8 @@ function find_user_locate(){
       inViewNotFollowing: 'inView'
     }
   }).addTo(map);
+}
+
+function marker_point(point){
+  L.marker(point).addTo(map);
 }

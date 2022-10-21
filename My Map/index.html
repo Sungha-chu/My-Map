@@ -18,8 +18,7 @@
         <script src="assets/js/index.js"></script>
         <script src="assets/js/config.js"></script>
         <script src="assets/js/create_and_init_map.js"></script>
-       
-        
+        <script src="assets/js/plan_path.js"></script>
         <script src="src/L.Control.Locate.js" ></script>
 
     </head>
@@ -27,8 +26,21 @@
     <body  onload="init();">
         <div id="map"></div>
 
-        <button onclick = "draw_shape();">框選範圍</button>
-        <button onclick = "erase_shape();">刪除框選範圍</button>
+        <ul>
+            <li>
+                <button onclick="IsPtInPoly();">我有在框選範圍內嗎</button>
+            </li>
+            <li>
+                <label>設定間隔距離</label><input id="interval_of_distance_set_by_user" type="text"></input><label> 單位: </label>
+                <select id="unit_of_distance">
+                    <option value="m" selected>公尺</option>
+                    <option value="km">公里</option>
+                </select>
+                <button onclick="create_new_list_by_distance();">建立鏈結座標</button>
+            </li>
+        </ul>
+
+
 
         <script type='application/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js'></script> 
     </body>

@@ -1,23 +1,9 @@
 function init(){
    create_map();  //Initial map and mark own location
-   //marker_point();
 }
 
-
-/*以下暫時沒用到*/
-function draw_shape(){
-   sort_points_list();
-   L.polygon(points_marker_by_user).addTo(map);
-   points_marker_by_user = new Array();
-   index_for_points_list = 0;
-}
-
-function erase_shape(){
-   location = location;
-}
-
-
-function sort_points_list(){
-   points_marker_by_user.sort();
-   points_marker_by_user.forEach(ele => console.log(ele));
+function sort_points_marker_by_user(){
+   points_marker_by_user.sort(function(p1, p2){    //以lat為基準進行排序   
+      return p1.lat - p2.lat;
+   });
 }
