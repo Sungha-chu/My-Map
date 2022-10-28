@@ -87,12 +87,14 @@ function get_user_location(){
 //成功取得使用者座標時觸發
 function onLocationFound(e) {
     user_location = e.latlng;    //設定使用者座標
-    if(user_location != null) L.marker(user_location,{icon:user_location_icon}).addTo(map); //標註使用者座標 
+    if(user_location != null) L.marker(user_location,{icon:user_location_icon}).addTo(map); //標註使用者座標
+    add_log("定位使用者座標完成");
 }
 
 //無法取得使用者座標時觸發
 function onLocationError(e) {
-    alert("無法取得座標");
+    alert("無法取得使用者座標");
+    add_log("無法取得使用者座標" , "red");
 }
 
 //定位使用者位置
