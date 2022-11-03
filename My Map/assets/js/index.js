@@ -20,7 +20,7 @@ function sort_points_marker_by_user(){
 }
 
 function sort_points_marker_by_user2(){
-   points_marker_by_user.sort(function(p1, p2){    //以lat為基準進行排序   
+   points_marker_by_user.sort(function(p1, p2){    //以lng為基準進行排序   
       return p1.lng - p2.lng;
    });
 }

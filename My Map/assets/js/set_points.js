@@ -8,119 +8,23 @@ function create_new_list_by_distance(){
                 distance = distance * 1000; //公尺轉公里
                 break;
         }
-        //while(!check_distance_ok(distance)) found_center_point();   //遞迴至間隔距離為distance
-        
-        //標註
-        for(var i=0; i < points_marker_by_user.length; i++){
-            L.marker(points_marker_by_user[i] , {
-                title: i +1,
-            }).addTo(map);
-        };
-        console.log(points_marker_by_user);
-        /*var points_msg = "鏈結座標:<br>";
-        points_marker_by_user.forEach(function(element){
-            points_msg = points_msg + element + "<br>";
-        });
-        points_msg = points_msg +"總共有" + points_marker_by_user.length + "個座標點";
-        add_log(points_msg);    //將座標資訊寫入log視窗*/
-
-        draw_grid(distance);
 
         if(IsPtInPoly()) add_log("使用者座標在框選範圍內" , "blue");   //判斷使用者是否被框選
         else add_log("使用者座標不在框選範圍內" , "blue");
+
+        add_log("間隔距離設定為" + distance);
+        getDirection();
+
+        getScannerLine(distance);   //取得掃描線清單
+        add_log("掃描線建立成功");
+        scan(distance);
+        add_log("掃描結果:建立" + points_on_edges_of_graphics.length + "個座標點","blue");
+
+        
         
     }
     else alert("未輸入間隔距離");
-    
 }
-
-//搜尋最大最小經緯度
-function draw_grid(distance){
-    var min_lng = points_marker_by_user[0].lng; //假設最小經度為points_marker_by_user[0]的經度
-    var max_lng = points_marker_by_user[0].lng; //假設最大經度為points_marker_by_user[0]的經度
-    var min_lat = points_marker_by_user[0].lat; //假設最小緯度為points_marker_by_user[0]的緯度
-    var max_lat = points_marker_by_user[0].lat; //假設最大緯度為points_marker_by_user[0]的緯度
-
-    for(var i=0; i<points_marker_by_user.length;i++){   //走訪座標清單
-        if(min_lng > points_marker_by_user[i].lng) min_lng = points_marker_by_user[i].lng;  //找最小經度
-        if(max_lng < points_marker_by_user[i].lng) max_lng = points_marker_by_user[i].lng;  //找最大經度
-        if(min_lat > points_marker_by_user[i].lat) min_lat = points_marker_by_user[i].lat;  //找最小緯度
-        if(max_lat < points_marker_by_user[i].lat) max_lat = points_marker_by_user[i].lat;  //找最大緯度
-    }
-
-    console.log("最小經度:" + min_lng);
-    console.log("最大經度:" + max_lng);
-    console.log("最小緯度:" + min_lat);
-    console.log("最大緯度:" + max_lat);
-
-    var grid_points = new Array();
-
-    var dist = distance * 0.00000900900901; //公尺轉經緯度: 1公尺約0.00000900900901度
-    var i = 0;
-    while( min_lng + i * dist <= max_lng){
-        L.polyline([[ min_lat , min_lng + i * dist ], [ max_lat  , min_lng + i * dist ]], { color: ' red ' }).addTo(map);   //繪製經線
-        console.log(i);
-        i = i + 1;
-    }
-    i = 0;
-    while(min_lat + i * dist <= max_lat){
-        L.polyline([[ min_lat + i * dist , min_lng ], [ min_lat + i * dist  , max_lng ]], { color: ' red ' }).addTo(map);   //繪製緯線
-        i = i + 1;
-    }
-}
-
-
-//建立圖形邊上中心點座標
-/*function found_center_point(){
-    var temp = new Array(); //圖形邊上中心座標暫存list
-    for(var i=0; i < points_marker_by_user.length; i++){
-        var list = new Array();
-        if(i + 1 < points_marker_by_user.length){   //座標點頭尾相接
-            list.push(points_marker_by_user[i]);
-            list.push(points_marker_by_user[i+1]);
-
-            var polyline = L.polyline(list, {color: ''}).addTo(map);
-            temp.push(polyline.getCenter());
-        }
-        else{
-            list.push(points_marker_by_user[i]);    //最後一筆資料需要指向原點
-            list.push(points_marker_by_user[i-i]);  //第一筆資料
-            
-            var polyline = L.polyline(list, {color: ''}).addTo(map);
-            temp.push(polyline.getCenter());
-        }
-    }
-
-    temp.forEach(function(element){  //將圖形邊上中心座標暫存list中所有資料轉入points_marker_by_user
-        points_marker_by_user.push(element);
-    });
-
-    sort_list_to_calculate();
-    //console.log(points_marker_by_user);
-}*/
-
-//計算中心點座標之排序
-/*function sort_list_to_calculate(){
-    let temp1 = new Array();    //原座標
-    let temp2 = new Array();    //新中心點座標
-    for(var i = 0; i < points_marker_by_user.length / 2; i++) temp1.push(points_marker_by_user[i]); //移轉原座標資料
-    for(var i = points_marker_by_user.length / 2; i < points_marker_by_user.length; i++) temp2.push(points_marker_by_user[i]);  //移轉新中心點座標資料
-
-    points_marker_by_user = new Array();    //清空points_marker_by_user
-    for(var i = 0; i < (temp1.length + temp2.length) / 2; i++){ //原始座標與新建座標穿插排序
-        points_marker_by_user.push(temp1[i]);   
-        points_marker_by_user.push(temp2[i]);
-    }
-}*/
-
-//檢查距離是否達到使用者輸入之dist
-/*function check_distance_ok(dist){
-    var is_ok = true;
-    for(var i = 1; i < points_marker_by_user.length; i++){
-        if(points_marker_by_user[i].distanceTo(points_marker_by_user[i - 1]) > dist)is_ok = false;  //若
-    }
-    return is_ok;
-}*/
 
 //計算座標是否坐落於框選範圍
 function IsPtInPoly() {
@@ -154,4 +58,148 @@ function IsPtInPoly() {
         return true;
     }
 	return false;
+}
+
+function getDirection(){
+    let direction = document.querySelector("#direction").value;
+    let result;
+    switch(direction){
+        case 'NSEW':
+        case 'NSWE':
+        case 'SNEW':
+        case 'SNWE':
+            result = 'vertical';
+            break;
+        case 'EWNS':
+        case 'EWSN':
+        case 'WENS':
+        case 'WESN':
+            result = 'level';
+            break;
+    }
+}
+
+//取得掃描線清單
+function getScannerLine(distance){
+    var min_lng = points_marker_by_user[0].lng; //假設最小經度為points_marker_by_user[0]的經度
+    var max_lng = points_marker_by_user[0].lng; //假設最大經度為points_marker_by_user[0]的經度
+    var min_lat = points_marker_by_user[0].lat; //假設最小緯度為points_marker_by_user[0]的緯度
+    var max_lat = points_marker_by_user[0].lat; //假設最大緯度為points_marker_by_user[0]的緯度
+
+    for(var i=0; i<points_marker_by_user.length;i++){   //走訪座標清單
+        if(min_lng > points_marker_by_user[i].lng) min_lng = points_marker_by_user[i].lng;  //找最小經度
+        if(max_lng < points_marker_by_user[i].lng) max_lng = points_marker_by_user[i].lng;  //找最大經度
+        if(min_lat > points_marker_by_user[i].lat) min_lat = points_marker_by_user[i].lat;  //找最小緯度
+        if(max_lat < points_marker_by_user[i].lat) max_lat = points_marker_by_user[i].lat;  //找最大緯度
+    }
+
+    let dist = distance * 0.00000900900901; //公尺轉經緯度: 1公尺約0.00000900900901度
+    let index = 0;
+    while(min_lng + index * dist <= max_lng){
+        let sp1 = {
+            'lat': min_lat,
+            'lng': min_lng + index * dist
+        };
+        let sp2 = {
+            'lat': max_lat,
+            'lng': min_lng + index * dist
+        };
+        scanner_list.push([sp1, sp2]);
+        index = index + 1;
+    }
+    index = 0;
+}
+
+//透過掃描線掃描圖形
+function scan(){
+    for(var index=0; index<points_marker_by_user.length; index++){
+        if(index < points_marker_by_user.length-1){
+            //L.polyline([points_marker_by_user[index], points_marker_by_user[index + 1]], { color: ' red ' }).addTo(map);  //繪製被掃描線
+            for(var i=0; i<scanner_list.length; i++){
+                //L.polyline(scanner_list[i], { color: ' blue ' }).addTo(map);  //繪製掃描線
+                let result = segmentsIntr(scanner_list[i][0], scanner_list[i][1], points_marker_by_user[index], points_marker_by_user[index + 1]);
+                if(result != false){
+                    points_on_edges_of_graphics.push(result);
+                }
+            }
+        }else{
+            //L.polyline([points_marker_by_user[index], points_marker_by_user[0]], { color: ' red ' }).addTo(map);  //繪製被掃描線
+            for(var i=0; i<scanner_list.length; i++){
+                //L.polyline(scanner_list[i], { color: ' blue ' }).addTo(map);  //繪製掃描線
+                let result = segmentsIntr(scanner_list[i][0], scanner_list[i][1], points_marker_by_user[index], points_marker_by_user[0]);  //頭尾相接
+                if(result != false){
+                    points_on_edges_of_graphics.push(result);
+                }
+            }
+        }
+    }
+    points_on_edges_of_graphics.forEach(function(element){  //標註掃描後得到的座標點
+        L.marker(element).addTo(map);
+    });
+}
+
+//求交點座標
+function segmentsIntr(sp1, sp2, up1, up2){  
+    let a = {
+        x: sp1.lng,
+        y: sp1.lat
+    };
+    let b = {
+        x: sp2.lng,
+        y: sp2.lat
+    };
+    let c = {
+        x: up1.lng,
+        y: up1.lat
+    };
+    let d = {
+        x: up2.lng,
+        y: up2.lat
+    };
+
+    var nx=b.y - a.y,   
+    ny=a.x - b.x;  
+    var normalLine = {  x: nx, y: ny }; 
+    var dist= normalLine.x*c.x + normalLine.y*c.y;  
+
+    //線段ab的法線N1  
+    var nx1 = (b.y - a.y), ny1 = (a.x - b.x);  
+
+    //線段cd的法線N2  
+    var nx2 = (d.y - c.y), ny2 = (c.x - d.x);  
+
+    //兩條法線做叉乘, 如果結果為0, 說明線段ab和線段cd平行或共線,不相交  
+    var denominator = nx1*ny2 - ny1*nx2;  
+    if (denominator==0) {  
+        return false;  
+    }  
+
+    //在法線N2上的投影  
+    var distC_N2=nx2 * c.x + ny2 * c.y;  
+    var distA_N2=nx2 * a.x + ny2 * a.y-distC_N2;  
+    var distB_N2=nx2 * b.x + ny2 * b.y-distC_N2;  
+
+    // 點a投影和點b投影在點c投影同側 (對點在線段上的情況,本例當作不相交處理);  
+    if ( distA_N2*distB_N2>=0  ) {  
+        return false;  
+    }  
+
+    //在法線N1上的投影  
+    var distA_N1=nx1 * a.x + ny1 * a.y;  
+    var distC_N1=nx1 * c.x + ny1 * c.y-distA_N1;  
+    var distD_N1=nx1 * d.x + ny1 * d.y-distA_N1;  
+    if ( distC_N1*distD_N1>=0  ) {  
+        return false;  
+    }  
+
+    //計算交點坐標  
+    var fraction= distA_N2 / denominator;  
+    var dx= fraction * ny1,  
+        dy= -fraction * nx1;
+
+    let result = {
+        'lat': a.y + dy,
+        'lng': a.x + dx
+    }
+    return result;
 }
