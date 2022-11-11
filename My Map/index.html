@@ -18,9 +18,8 @@
         <script src="assets/js/index.js"></script>
         <script src="assets/js/config.js"></script>
         <script src="assets/js/create_and_init_map.js"></script>
-        <script src="assets/js/set_points.js"></script>
-        <script src="assets/js/set_path.js"></script>
-        <script src="assets/js/point_class.js"></script>
+        <script src="assets/js/set_points_and_path.js"></script>
+        <script src="assets/js/download_files.js"></script>
         <script src="src/L.Control.Locate.js" ></script>
 
     </head>
@@ -30,41 +29,44 @@
 
         <div class="frame">
             <div class="setting">
-                <ul>
-                    <li>
-                        <label>設定間隔距離</label><input id="interval_of_distance_set_by_user" type="text"></input><label> 單位: </label>
-                        <select id="unit_of_distance">
-                            <option value="m" selected>公尺</option>
-                            <option value="km">公里</option>
-                        </select>
-                        <button onclick="create_new_list_by_distance();">建立鏈結座標</button>
-                    </li>
-                    <li>
-                        <label>期望路徑方向:</label>
-                        <select id="direction">
-                            <optgroup label="由北向南"></optgroup>
-                                <option value="NSEW">由北向南，由東向西</option>
-                                <option value="NSWE">由北向南，由西向東</option>
-                            <optgroup label="由南向北"></optgroup>
-                                <option value="SNEW">由南向北，由東向西</option>
-                                <option value="SNWE">由南向北，由西向東</option>
-                            <optgroup label="由東向西"></optgroup>
-                                <option value="EWNS">由東向西，由北向南</option>
-                                <option value="EWSN">由東向西，由南向北</option>
-                            <optgroup label="由西向東"></optgroup>
-                                <option value="WENS">由西向東，由北向南</option>
-                                <option value="WESN">由西向東，由南向北</option>
-                        </select>
-                        <button onclick="set_path();">規劃路徑</button>
-                    </li>
-                </ul>
+                <label class="list">
+                    <ul style="margin:auto;">
+                        <li>
+                            <label>設定間隔距離:</label><input id="interval_of_distance_set_by_user" type="text"></input><label> 單位: </label>
+                            <select id="unit_of_distance">
+                                <option value="m" selected>公尺</option>
+                                <option value="km">公里</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>期望路徑方向:</label>
+                            <select id="direction">
+                                <optgroup label="由北向南"></optgroup>
+                                    <option value="NSEW">由北向南，由東向西</option>
+                                    <option value="NSWE">由北向南，由西向東</option>
+                                <optgroup label="由南向北"></optgroup>
+                                    <option value="SNEW">由南向北，由東向西</option>
+                                    <option value="SNWE">由南向北，由西向東</option>
+                                <optgroup label="由東向西"></optgroup>
+                                    <option value="EWNS">由東向西，由北向南</option>
+                                    <option value="EWSN">由東向西，由南向北</option>
+                                <optgroup label="由西向東"></optgroup>
+                                    <option value="WENS">由西向東，由北向南</option>
+                                    <option value="WESN">由西向東，由南向北</option>
+                            </select>
+                        </li>
+                    </ul>
+                </label>
+                <label class="btn_label">
+                    <img class="img_btn" src="images/plain path.png" onclick="create_new_list_by_distance();"></img>
+                    <img class="img_btn" src="images/download.png" onclick="download_file();"></img>
+                </label>
             </div>
             <div class="log">
                 <ul id="log_msg"></ul>
             </div>
         </div>
         
-
         <script type='application/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js'></script> 
     </body>
 </html>

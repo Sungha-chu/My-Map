@@ -1,5 +1,9 @@
 optgroup{
-    font-size:25px;
+    font-size:18px;
+}
+
+select{
+    font-size:15px;
 }
 
 #map {
@@ -7,7 +11,7 @@ optgroup{
 }
 
 #interval_of_distance_set_by_user{
-	width: 5%;
+	width: 15%;
 }
 
 .frame{
@@ -16,11 +20,40 @@ optgroup{
     display:flex;
 }
 
+.list{
+    margin: 0 auto;
+    display: flex;
+}
+
 .setting{
     width:48%;
     margin: 0 auto;
+    padding:1%;
     background-color: #F0F0F0;
-    /*border:1px solid red;*/
+    overflow-y: overlay;
+}
+
+.img_btn{
+    width:5%;
+    height:5%;
+    margin: 0 auto;
+    background-color: darkgray;
+    border-radius: 50%;
+}
+
+.img_btn:hover{
+    transform: scale(1.2);
+    transition: all 0.8s ease-out;
+}
+
+.btn_label{
+    width:100%;
+    margin-top:1%;
+    display:flex;
+}
+
+.plain_path{
+    margin: 0 auto;
 }
 
 .log{

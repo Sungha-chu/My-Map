@@ -11,16 +11,3 @@ function add_log(msg , font_color){
    li.innerHTML = msg;
    ul.appendChild(li);
 }
-
-//進行排序
-function sort_points_marker_by_user(){
-   points_marker_by_user.sort(function(p1, p2){    //以lat為基準進行排序   
-      return p1.lat - p2.lat;
-   });
-}
-
-function sort_points_marker_by_user2(){
-   points_marker_by_user.sort(function(p1, p2){    //以lng為基準進行排序   
-      return p1.lng - p2.lng;
-   });
-}
