@@ -3,9 +3,6 @@ function download_file() {
     let fileName = "path.bin";
     const data = data_package();
     let temp="";
-    data.forEach(function(element){
-        console.log('data:'+element);
-    });
     let blob = new Blob(data, {
         type: "application/octet-stream"
     });
@@ -16,6 +13,8 @@ function download_file() {
     link.href = href;
     link.download = fileName;
     link.click();
+
+    add_log("路線資料下載完成","blue");
 }
 
 //打包並回傳資料

@@ -32,14 +32,14 @@ function create_draw_func_bar(){
     draw:{
       polyline: false,  //直線:停用
       polygon: true,  //多邊形:啟用
-      rectangle: true,  //四邊形:啟用
+      rectangle: false,  //四邊形:停用
       circle: false,  //圓形:停用
       marker: false,  //標註點:停用
     },
     edit:{
       featureGroup: drawItem,
-      edit:true,
-      remove:true,
+      edit:false,
+      remove:false,
     },
   });
   map.addControl(drawControl);
@@ -66,7 +66,7 @@ function create_layer_of_map(){
     };
     var overlays = {};
     L.control.layers(baselayers, overlays).addTo(map);
-    baselayers['OpenStreetMap.Mapnik'].addTo(map);
+    //baselayers['OpenStreetMap.Mapnik'].addTo(map);
 }
 
 //取得使用者座標
@@ -113,7 +113,7 @@ function find_user_locate(){
     clickBehavior: {
       inView: 'stop',
       outOfView: 'setView',
-      inViewNotFollowing: 'inView'
+      inViewNotFollowing: 'inView',
     }
   }).addTo(map);
 }
